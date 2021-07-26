@@ -1,62 +1,63 @@
-import { asyncRoutes, constantRoutes } from '@/router'
-
-/**
- * Use meta.role to determine if the current user has permission
- * @param roles
- * @param route
- */
-function hasPermission(roles, route) {
-  if (route.meta && route.meta.roles) {
-    return roles.some(role => route.meta.roles.includes(role))
-  } else {
-    return true
-  }
-}
+import { constantRoutes } from '@/router'
+import { getMenu } from '@/api/user'
 
 /**
  * Filter asynchronous routing tables by recursion
  * @param routes asyncRoutes
  * @param roles
  */
-export function filterAsyncRoutes(routes, roles) {
+export function filterAsyncRoutes(routes) {
   const res = []
 
   routes.forEach(route => {
-    const tmp = { ...route }
-    if (hasPermission(roles, tmp)) {
-      if (tmp.children) {
-        tmp.children = filterAsyncRoutes(tmp.children, roles)
-      }
-      res.push(tmp)
+    const tmp = caseToRoute(route)
+    if (route.children) {
+      tmp.children = filterAsyncRoutes(route.children)
     }
+    res.push(tmp)
   })
 
   return res
 }
 
+export function caseToRoute(r) {
+  const route = {}
+  route.path = r.path
+  route.component = loadView(r.component)
+  route.name = r.name
+  route.meta = JSON.parse(r.meta)
+  return route
+}
+
+export const loadView = (view) => {
+  return (resolve) => require([`@/${view}.vue`], resolve)
+}
+
 const state = {
   routes: [],
-  addRoutes: []
+  addRoutes: [],
+  isInit: false
 }
 
 const mutations = {
   SET_ROUTES: (state, routes) => {
     state.addRoutes = routes
     state.routes = constantRoutes.concat(routes)
+    state.isInit = true
   }
 }
 
 const actions = {
-  generateRoutes({ commit }, roles) {
-    return new Promise(resolve => {
-      let accessedRoutes
-      if (roles.includes('admin')) {
-        accessedRoutes = asyncRoutes || []
-      } else {
-        accessedRoutes = filterAsyncRoutes(asyncRoutes, roles)
-      }
-      commit('SET_ROUTES', accessedRoutes)
-      resolve(accessedRoutes)
+  generateRoutes({ commit }) {
+    return new Promise((resolve, reject) => {
+      getMenu().then(
+        response => {
+          const accessedRoutes = filterAsyncRoutes(response.data)
+          commit('SET_ROUTES', accessedRoutes)
+          resolve(accessedRoutes)
+        }).catch(error => {
+        reject(error)
+      })
     })
   }
 }
