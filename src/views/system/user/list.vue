@@ -10,7 +10,7 @@
       <el-form-item label="账号">
         <el-input v-model="query.loginName" placeholder="账号" clearable />
       </el-form-item>
-      <el-form-item label="活动区域">
+      <el-form-item label="角色">
         <el-select v-model="query.roleId" placeholder="角色ID" clearable>
           <el-option
             v-for="item in roleOptions"
