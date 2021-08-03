@@ -132,7 +132,6 @@ export default {
                 ids.push(power.id)
               }
             })
-            console.log(ids)
             this.$refs['roleMenu'].setCheckedKeys(ids)
           }
         )

@@ -1,5 +1,12 @@
 <template>
   <div class="app-container">
+    <el-header>
+      <el-row>
+        <el-col :span="2">
+          <el-button size="mini" type="success"   @click="() => openAdd({})">添加一级菜单</el-button>
+        </el-col>
+      </el-row>
+    </el-header>
     <el-tree
       :data="list"
       show-checkbox

@@ -25,6 +25,8 @@ export function caseToRoute(r) {
   route.path = r.path
   route.component = loadView(r.component)
   route.name = r.name
+  route.hidden = r.hidden
+  route.redirect = r.redirect
   route.meta = JSON.parse(r.meta)
   return route
 }
