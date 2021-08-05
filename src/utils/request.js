@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { MessageBox, Message } from 'element-ui'
-import store from '@/store'
+import { getToken } from '@/utils/auth'
 
 // create an axios instance
 const service = axios.create({
@@ -14,11 +14,11 @@ service.interceptors.request.use(
   config => {
     // do something before request is sent
 
-    if (store.getters.token) {
+    if (getToken()) {
       // let each request carry token
       // ['X-Token'] is a custom headers key
       // please modify it according to the actual situation
-      config.headers['Authorization'] = 'Bearer ' + store.getters.token
+      config.headers['Authorization'] = 'Bearer ' + getToken()
     }
     return config
   },
@@ -60,9 +60,9 @@ service.interceptors.response.use(
           cancelButtonText: 'Cancel',
           type: 'warning'
         }).then(() => {
-          store.dispatch('user/resetToken').then(() => {
-            location.reload()
-          })
+          // store.dispatch('user/resetToken').then(() => {
+          //   location.reload()
+          // })
         })
       }
       return Promise.reject(new Error(res.message || 'Error'))

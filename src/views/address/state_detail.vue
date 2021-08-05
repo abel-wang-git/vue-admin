@@ -67,7 +67,6 @@ export default {
   methods: {
     update() {
       this.form.translations = JSON.stringify(this.form.translationJson)
-      console.log(this.form.translations)
       stateSave(this.form).then(response => {
         if (response.code === 200) {
           this.$message({

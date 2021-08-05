@@ -8,4 +8,5 @@ const getters = {
   permission_routes: state => state.permission.routes,
   has_router: state => state.permission.isInit
 }
+
 export default getters

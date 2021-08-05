@@ -243,7 +243,6 @@ export default {
           })
 
           const currData = this.$refs.tree.getNode(this.choseDept.ekey).data
-          console.log(currData)
           this.addDept.id = response.data
           this.addDept.type = 1
           this.addDept.ekey = this.addDept.type.toString() + this.addDept.id
@@ -267,7 +266,6 @@ export default {
           this.addPost.id = response.data
           this.addPost.type = 2
           this.addPost.ekey = this.addPost.id + this.addPost.type
-          console.log(this.addPost)
           currData.children.push(this.addPost)
           this.addPost = {}
           this.postDialogVisible = false
@@ -304,7 +302,6 @@ export default {
       }
     },
     openMenuDialog(row) {
-      console.log(row)
       this.roleId = row.id
       menuList().then(response => {
         this.menus = response.data
@@ -316,7 +313,6 @@ export default {
                 ids.push(power.id)
               }
             })
-            console.log(ids)
             this.$refs['roleMenu'].setCheckedKeys(ids)
           }
         )

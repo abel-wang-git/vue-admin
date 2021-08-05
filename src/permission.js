@@ -27,24 +27,20 @@ router.beforeEach(async(to, from, next) => {
       NProgress.done()
     } else {
       const hasRouter = store.getters.has_router
+      // 刷新时重新获取用户信息
       if (!store.getters.name) {
         await store.dispatch('user/refresh')
       }
+      console.log('isrouter' + hasRouter)
       if (hasRouter) {
         next()
       } else {
         try {
           const accessRoutes = await store.dispatch('permission/generateRoutes')
-          //
-          // // dynamically add accessible routes
           router.addRoutes(accessRoutes)
-
-          // hack method to ensure that addRoutes is complete
-          // set the replace: true, so the navigation will not leave a history record
           next({ ...to, replace: true })
         } catch (error) {
           // remove token and go to login page to re-login
-          await store.dispatch('user/resetToken')
           Message.error(error || 'Has Error')
           next(`/login?redirect=${to.path}`)
           NProgress.done()

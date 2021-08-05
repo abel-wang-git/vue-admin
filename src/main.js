@@ -15,18 +15,6 @@ import router from './router'
 import '@/icons' // icon
 import '@/permission'
 import * as custom from '@/utils/filters'
-/**
- * If you don't want to use mock-server
- * you want to use MockJs for mock api
- * you can execute: mockXHR()
- *
- * Currently MockJs will be used in the production environment,
- * please remove it before going online ! ! !
- */
-if (process.env.NODE_ENV === 'production') {
-  const { mockXHR } = require('../mock')
-  mockXHR()
-}
 
 Object.keys(custom).forEach(key => { Vue.filter(key, custom[key]) })
 // set ElementUI lang to EN
@@ -38,6 +26,8 @@ Vue.use(VueJsonEditor)
 // Vue.use(ElementUI)
 
 Vue.config.productionTip = false
+Vue.prototype.imgUpload = process.env.VUE_APP_BASE_API.replace(/\/+$/, '') + '/img/upload'
+Vue.prototype.imgPrefix = process.env.VUE_APP_BASE_API.replace(/\/+$/, '') + '/'
 
 new Vue({
   el: '#app',
@@ -45,3 +35,4 @@ new Vue({
   store,
   render: h => h(App)
 })
+
