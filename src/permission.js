@@ -31,7 +31,6 @@ router.beforeEach(async(to, from, next) => {
       if (!store.getters.name) {
         await store.dispatch('user/refresh')
       }
-      console.log('isrouter' + hasRouter)
       if (hasRouter) {
         next()
       } else {

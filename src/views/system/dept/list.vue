@@ -8,7 +8,7 @@
               <svg-icon v-if="data.type === 1" icon-class="organization" style="color: #5d9d45" />
               <svg-icon v-if="data.type === 2" icon-class="post" style="height: 20px;color: #ec8121" />
               <div style="width:80px">{{ node.label }}</div>
-              <el-button v-if="!data.children || data.children.length === 0" type="danger" icon="el-icon-delete" size="mini" circle style="font-size: 2px;padding: 3px" @click="deleteDept(data)"></el-button>
+              <el-button v-if="!data.children || data.children.length === 0" type="danger" icon="el-icon-delete" size="mini" circle style="font-size: 2px;padding: 3px" @click.stop="deleteDept(data)" />
             </div>
           </span>e
         </el-tree>
@@ -26,6 +26,16 @@
           <el-form ref="app" :model="choseDept" label-width="120px">
             <el-form-item label="部门名称">
               <el-input v-model="choseDept.name" />
+            </el-form-item>
+            <el-form-item label="部门管理员">
+              <el-select v-model="choseDept.adminId" placeholder="请选择">
+                <el-option
+                  v-for="item in departmentUse"
+                  :key="item.id"
+                  :label="item.nickName"
+                  :value="item.id">
+                </el-option>
+              </el-select>
             </el-form-item>
             <el-input v-model="choseDept.id" type="hidden" />
             <el-form-item>
@@ -58,8 +68,8 @@
                   <el-image
                     style="width: 100px; height: 100px"
                     :src="scope.row.avatar"
-                    fit="fill">
-                  </el-image>
+                    fit="fill"
+                  />
                 </template>
               </el-table-column>
               <el-table-column label="账号">
@@ -100,6 +110,16 @@
           <el-form-item label="部门名称">
             <el-input v-model="addDept.name" />
           </el-form-item>
+          <el-form-item label="部门管理员">
+            <el-select v-model="addDept.adminId" placeholder="请选择">
+              <el-option
+                v-for="item in departmentUse"
+                :key="item.id"
+                :label="item.nickName"
+                :value="item.id">
+              </el-option>
+            </el-select>
+          </el-form-item>
           <el-form-item>
             <el-button size="mini" type="primary" @click="saveDept(addDept)">添加</el-button>
           </el-form-item>
@@ -119,7 +139,7 @@
         </el-form>
       </el-dialog>
       <el-dialog title="" :visible.sync="powerDialogVisible" width="30%">
-        <span slot="title"  class="header-title">
+        <span slot="title" class="header-title">
           asdf
         </span>
         <el-tree ref="tree" :data="powers" show-checkbox node-key="id" highlight-current :props="powerProps" />
@@ -141,7 +161,7 @@
 </template>
 
 <script>
-import { powerList, rolePowerList, roleAddPower, roleAdd, getList, menuList, roleMenu, roleAddMenu, deleteRole } from '@/api/user'
+import { powerList, rolePowerList, roleAddPower, roleAdd, getList, menuList, roleMenu, roleAddMenu, deleteRole, departmentUses } from '@/api/user'
 import DeptApi from '@/api/dept'
 import checkPermission from '@/utils/permission'
 import Pagination from '@/components/Pagination'
@@ -173,7 +193,8 @@ export default {
         label: 'name'
       },
       menuDialogVisible: false,
-      menus: []
+      menus: [],
+      departmentUse: []
     }
   },
   created() {
@@ -190,13 +211,17 @@ export default {
     },
     handleNodeClick(data, node, e) {
       this.choseDept = data
+      if (data.type === 1) {
+        departmentUses({ id: this.choseDept.id }).then(response => {
+          this.departmentUse = response.data
+        })
+      }
       if (data.type === 2) {
         this.page.pageNum = 0
         this.userFetchData()
       }
     },
     update(row) {
-      delete row.children
       DeptApi.add(row).then(response => {
         if (response.code === 200) {
           this.$message({
@@ -210,6 +235,9 @@ export default {
       if (v === 2) {
         this.addDept.pid = this.choseDept.id
         this.dialogVisible = true
+        departmentUses({ id: this.choseDept.id }).then(response => {
+          this.departmentUse = response.data
+        })
       }
       if (v === 1) {
         this.addPost.deptId = this.choseDept.id
@@ -265,7 +293,10 @@ export default {
           const currData = this.$refs.tree.getNode(this.choseDept.ekey).data
           this.addPost.id = response.data
           this.addPost.type = 2
-          this.addPost.ekey = this.addPost.id + this.addPost.type
+          this.addPost.ekey = this.addPost.type.toString() + this.addPost.id
+          if (!currData.children) {
+            this.$set(currData, 'children', [])
+          }
           currData.children.push(this.addPost)
           this.addPost = {}
           this.postDialogVisible = false

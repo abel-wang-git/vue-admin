@@ -11,8 +11,8 @@
           range-separator="至"
           start-placeholder="开始日期"
           end-placeholder="结束日期"
-          value-format="timestamp">
-        </el-date-picker>
+          value-format="timestamp"
+        />
       </el-form-item>
       <el-form-item label="账号">
         <el-input v-model="query.loginName" placeholder="账号" clearable />
@@ -33,7 +33,7 @@
         <template slot-scope="scope">
           <el-form label-position="left" inline class="demo-table-expand">
             <el-form-item label="请求参数">
-              {{ scope.row.requestParams}}
+              {{ scope.row.requestParams }}
             </el-form-item>
             <el-form-item label="调用方法">
               {{ scope.row.method }}

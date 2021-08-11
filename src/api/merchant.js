@@ -32,3 +32,10 @@ export function adminList(data) {
   })
 }
 
+export function adminAdd(data) {
+  return request({
+    url: '/manager/add/admin',
+    method: 'post',
+    data: data
+  })
+}

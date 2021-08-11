@@ -4,34 +4,34 @@
       <el-row :gutter="20">
         <el-col :span="6">
           <el-form-item label="name">
-            <el-input v-model="form.name"></el-input>
+            <el-input v-model="form.name" />
           </el-form-item>
         </el-col>
         <el-col :span="6">
           <el-form-item label="countryCode">
-            <el-input v-model="form.countryCode"></el-input>
+            <el-input v-model="form.countryCode" />
           </el-form-item>
         </el-col>
         <el-col :span="6">
           <el-form-item label="fipsCode">
-            <el-input v-model="form.fipsCode"></el-input>
+            <el-input v-model="form.fipsCode" />
           </el-form-item>
         </el-col>
         <el-col :span="6">
           <el-form-item label="iso2">
-            <el-input v-model="form.iso2"></el-input>
+            <el-input v-model="form.iso2" />
           </el-form-item>
         </el-col>
       </el-row>
       <el-row :gutter="20">
         <el-col :span="6">
           <el-form-item label="latitude">
-            <el-input v-model="form.latitude"></el-input>
+            <el-input v-model="form.latitude" />
           </el-form-item>
         </el-col>
         <el-col :span="6">
           <el-form-item label="longitude">
-            <el-input v-model="form.longitude"></el-input>
+            <el-input v-model="form.longitude" />
           </el-form-item>
         </el-col>
       </el-row>
@@ -39,7 +39,8 @@
         <vue-json-editor
           v-model="form.translationJson"
           :mode="'code'"
-          class="vue-json-editor"/>
+          class="vue-json-editor"
+        />
       </el-form-item>
       <el-button type="danger" @click="update">
         保存

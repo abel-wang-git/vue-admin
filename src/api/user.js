@@ -147,3 +147,11 @@ export function roleAddMenu(data) {
   })
 }
 
+export function departmentUses(data) {
+  return request({
+    url: 'department/uses',
+    method: 'get',
+    params: data
+  })
+}
+

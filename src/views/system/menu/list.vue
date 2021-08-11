@@ -3,7 +3,7 @@
     <el-header>
       <el-row>
         <el-col :span="2">
-          <el-button size="mini" type="success"   @click="() => openAdd({})">添加一级菜单</el-button>
+          <el-button size="mini" type="success" @click="() => openAdd({})">添加一级菜单</el-button>
         </el-col>
       </el-row>
     </el-header>
@@ -48,31 +48,31 @@
     <el-dialog title="添加菜单" :visible.sync="dialogVisible" width="50%">
       <el-form label-position="right" :inline="true" label-width="80px" :model="menu">
         <el-form-item label="名称">
-          <el-input v-model="menu.name"></el-input>
+          <el-input v-model="menu.name" />
         </el-form-item>
         <el-form-item label="Icon">
-          <el-input v-model="menu.menuIcon"></el-input>
+          <el-input v-model="menu.menuIcon" />
         </el-form-item>
         <el-form-item label="路径">
-          <el-input v-model="menu.path"></el-input>
+          <el-input v-model="menu.path" />
         </el-form-item>
         <el-form-item label="组件路径">
-          <el-input v-model="menu.component"></el-input>
+          <el-input v-model="menu.component" />
         </el-form-item>
         <el-form-item label="meta信息">
-          <el-input v-model="menu.meta"></el-input>
+          <el-input v-model="menu.meta" />
         </el-form-item>
         <el-form-item label="排序">
-          <el-input v-model="menu.priority"></el-input>
+          <el-input v-model="menu.priority" />
         </el-form-item>
         <el-form-item label="重定向路径">
-          <el-input v-model="menu.redirect"></el-input>
+          <el-input v-model="menu.redirect" />
         </el-form-item>
         <el-form-item label="是否隐藏">
-          <el-input v-model="menu.hidden"></el-input>
+          <el-input v-model="menu.hidden" />
         </el-form-item>
         <el-form-item label="alwaysshow">
-          <el-input v-model="menu.alwaysshow"></el-input>
+          <el-input v-model="menu.alwaysshow" />
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">

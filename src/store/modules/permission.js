@@ -57,7 +57,6 @@ const actions = {
           const accessedRoutes = filterAsyncRoutes(response.data)
           accessedRoutes.push({ path: '*', redirect: '/404', hidden: true })
           commit('SET_ROUTES', accessedRoutes)
-          console.log(state)
           resolve(accessedRoutes)
         }).catch(error => {
         reject(error)

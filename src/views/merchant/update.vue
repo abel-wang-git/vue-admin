@@ -1,5 +1,6 @@
 <template>
   <div class="app-container">
+    <el-divider>店铺信息</el-divider>
     <el-form ref="form" :model="form" label-width="100px">
       <el-row :gutter="20">
         <el-col :span="6">
@@ -44,24 +45,31 @@
         </el-button>
       </el-form-item>
     </el-form>
+    <el-divider>管理员</el-divider>
+    <Admin :merchant-id="form.merchantId" />
   </div>
 </template>
 <script>
 import { updateMerchant } from '@/api/merchant'
-import store from '../../store'
+import { getToken } from '@/utils/auth'
+import Admin from './admin'
+import { Loading } from 'element-ui'
 export default {
+  components: { Admin },
   data() {
     return {
       form: {},
       headerObj: {
-        Authorization: 'Bearer ' + store.getters.token
+        Authorization: 'Bearer ' + getToken()
       }
     }
   },
   created() {
-    if (this.$route.params.merchant) {
-      this.form = this.$route.params.merchant
+    const loadingInstance1 = Loading.service({ fullscreen: true })
+    if (this.$route.query.merchant) {
+      this.form = JSON.parse(decodeURIComponent(this.$route.query.merchant))
     }
+    loadingInstance1.close()
   },
   methods: {
     handleAvatarSuccess(res, file) {

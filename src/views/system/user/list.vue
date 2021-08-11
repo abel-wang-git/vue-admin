@@ -16,8 +16,8 @@
             v-for="item in roleOptions"
             :key="item.id"
             :label="item.name"
-            :value="item.id">
-          </el-option>
+            :value="item.id"
+          />
         </el-select>
       </el-form-item>
       <el-form-item>
@@ -37,18 +37,14 @@
           {{ scope.row.id }}
         </template>
       </el-table-column>
-      <el-table-column label="昵称">
+      <el-table-column label="" width="60px">
         <template slot-scope="scope">
-          {{ scope.row.nickName }}
+          <el-avatar v-if="scope.row.avatar" size="small" :src="imgPrefix+scope.row.avatar" />
         </template>
       </el-table-column>
-      <el-table-column label="头像">
+      <el-table-column label="昵称" align="center">
         <template slot-scope="scope">
-          <el-image
-            style="width: 100px; height: 100px"
-            :src="scope.row.avatar"
-            fit="fill">
-          </el-image>
+          {{ scope.row.nickName }}
         </template>
       </el-table-column>
       <el-table-column label="账号">
