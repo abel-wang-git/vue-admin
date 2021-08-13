@@ -33,8 +33,8 @@
                   v-for="item in departmentUse"
                   :key="item.id"
                   :label="item.nickName"
-                  :value="item.id">
-                </el-option>
+                  :value="item.id"
+                />
               </el-select>
             </el-form-item>
             <el-input v-model="choseDept.id" type="hidden" />
@@ -116,8 +116,8 @@
                 v-for="item in departmentUse"
                 :key="item.id"
                 :label="item.nickName"
-                :value="item.id">
-              </el-option>
+                :value="item.id"
+              />
             </el-select>
           </el-form-item>
           <el-form-item>

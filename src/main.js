@@ -29,6 +29,20 @@ Vue.config.productionTip = false
 Vue.prototype.imgUpload = process.env.VUE_APP_BASE_API.replace(/\/+$/, '') + '/img/upload'
 Vue.prototype.imgPrefix = process.env.VUE_APP_BASE_API.replace(/\/+$/, '') + '/'
 
+function beforeImageUpload(file) {
+  const isJPG = file.type === 'image/jpeg' || file.type === 'image/png'
+  const isLt2M = file.size / 1024 / 1024 < 2
+
+  if (!isJPG) {
+    this.$message.error('上传头像图片只能是 JPG 格式!')
+  }
+  if (!isLt2M) {
+    this.$message.error('上传头像图片大小不能超过 2MB!')
+  }
+  return isJPG && isLt2M
+}
+
+Vue.prototype.beforeImageUpload = beforeImageUpload
 new Vue({
   el: '#app',
   router,
