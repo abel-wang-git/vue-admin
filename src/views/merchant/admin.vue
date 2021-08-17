@@ -71,10 +71,13 @@ export default {
       page: { total: 0, size: 10, pageNum: 0 }
     }
   },
-  created() {
-    this.query.merchantId = this.merchantId
-    this.fetchData()
+  watch: {
+    merchantId(o, n) {
+      this.query.merchantId = this.merchantId
+      this.fetchData()
+    }
   },
+  created() {},
   mounted() {},
   methods: {
     fetchData() {

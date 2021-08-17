@@ -16,6 +16,21 @@ export function updateMerchant(data) {
   })
 }
 
+export function detailMerchant(data) {
+  return request({
+    url: '/manager/detail',
+    method: 'get',
+    params: data
+  })
+}
+
+export function detailMyMerchant() {
+  return request({
+    url: '/manager/detail/my',
+    method: 'get'
+  })
+}
+
 export function merchantList(data) {
   return request({
     url: '/manager/list',
@@ -37,5 +52,21 @@ export function adminAdd(data) {
     url: '/manager/add/admin',
     method: 'post',
     data: data
+  })
+}
+
+export function merchantServiceAdd(data) {
+  return request({
+    url: '/manager/merchant/service',
+    method: 'put',
+    data: data
+  })
+}
+
+export function merchantServiceList(data) {
+  return request({
+    url: '/manager/merchant/service',
+    method: 'get',
+    params: data
   })
 }

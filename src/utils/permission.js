@@ -6,11 +6,13 @@ import store from '@/store'
  * @example see @/views/permission/directive.vue
  */
 export default function checkPermission(value) {
-  if (value && value instanceof Array && value.length > 0) {
-    const roles = store.getters && store.getters.roles
+  if (value) {
+    const roles = store.getters && store.getters.permission_button
     const permissionRoles = value
     const hasPermission = roles.some(role => {
-      return permissionRoles.includes(role)
+      if (role.buttonCode === permissionRoles) {
+        return true
+      }
     })
 
     if (!hasPermission) {

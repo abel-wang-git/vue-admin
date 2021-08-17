@@ -33,6 +33,9 @@
           <el-button size="mini" @click="openMenuDialog(row)">
             编辑菜单
           </el-button>
+          <el-button size="mini" @click="openButtonDialog(row)">
+            编辑按钮
+          </el-button>
           <el-button type="danger" size="mini" @click="deleteRole(row)">
             删除
           </el-button>
@@ -46,8 +49,15 @@
         <el-button type="primary" @click="addPower">确 定</el-button>
       </span>
     </el-dialog>
+    <el-dialog title="添加按钮" :visible.sync="buttonDialogVisible" width="30%">
+      <el-tree ref="buttonTree" :data="button" show-checkbox node-key="buttonId" highlight-current :props="{children: 'children', label: 'name' ,disabled: treeDisabled }" :check-strictly="true" />
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="buttonDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="addButton">确 定</el-button>
+      </span>
+    </el-dialog>
     <el-dialog title="添加菜单" :visible.sync="menuDialogVisible" width="30%">
-      <el-tree ref="roleMenu" :data="menus" show-checkbox node-key="id" highlight-current :props="etreeProps" />
+      <el-tree ref="roleMenu" :data="menus" show-checkbox node-key="id" highlight-current :props="etreeProps" :check-strictly="true" />
       <span slot="footer" class="dialog-footer">
         <el-button @click="menuDialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="addMenu">确 定</el-button>
@@ -68,7 +78,7 @@
 </template>
 
 <script>
-import { roleList, powerList, rolePowerList, roleAddPower, menuList, roleMenu, roleAddMenu, roleAdd, deleteRole } from '@/api/user'
+import { roleList, powerList, rolePowerList, roleAddPower, menuList, roleMenu, roleAddMenu, roleAdd, deleteRole, roleButton, buttonList, roleButtonSave } from '@/api/user'
 import checkPermission from '@/utils/permission'
 
 export default {
@@ -89,7 +99,9 @@ export default {
       postDialogVisible: false,
       role: {
         deptId: 1
-      }
+      },
+      buttonDialogVisible: false,
+      button: []
     }
   },
   created() {
@@ -120,6 +132,24 @@ export default {
       this.dialogId = row.id
       this.dialogVisible = true
     },
+    openButtonDialog(row) {
+      this.dialogId = row.id
+      buttonList().then(response => {
+        this.button = response.data
+        roleButton({ roleId: row.id }).then(
+          response => {
+            const ids = []
+            response.data.forEach(function(power, index) {
+              ids.push(power.buttonId)
+            })
+            if (ids) {
+              this.$refs['buttonTree'].setCheckedKeys(ids)
+            }
+          }
+        )
+      })
+      this.buttonDialogVisible = true
+    },
     openMenuDialog(row) {
       this.dialogId = row.id
       menuList().then(response => {
@@ -128,9 +158,7 @@ export default {
           response => {
             const ids = []
             response.data.forEach(function(power, index) {
-              if (power.pid !== 0) {
-                ids.push(power.id)
-              }
+              ids.push(power.id)
             })
             this.$refs['roleMenu'].setCheckedKeys(ids)
           }
@@ -142,6 +170,15 @@ export default {
       let check = this.$refs.tree.getCheckedKeys()
       check = check.filter(c => typeof (c) === 'number')
       roleAddPower({ api: check, roleId: this.dialogId }).then(response => {
+        this.$message({
+          message: response.message,
+          type: 'success'
+        })
+      })
+    },
+    addButton() {
+      const check = this.$refs['buttonTree'].getCheckedKeys()
+      roleButtonSave({ api: check, roleId: this.dialogId }).then(response => {
         this.$message({
           message: response.message,
           type: 'success'
@@ -191,6 +228,9 @@ export default {
           message: '已取消删除'
         })
       })
+    },
+    treeDisabled(d, n) {
+      return d.disabled
     }
   }
 

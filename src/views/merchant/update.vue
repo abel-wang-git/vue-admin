@@ -45,17 +45,20 @@
         </el-button>
       </el-form-item>
     </el-form>
+    <el-divider>店铺服务</el-divider>
+    <Service :merchant-id="form.merchantId" />
     <el-divider>管理员</el-divider>
     <Admin :merchant-id="form.merchantId" />
   </div>
 </template>
 <script>
-import { updateMerchant } from '@/api/merchant'
+import { updateMerchant, detailMerchant, detailMyMerchant } from '@/api/merchant'
 import { getToken } from '@/utils/auth'
 import Admin from './admin'
 import { Loading } from 'element-ui'
+import Service from './service'
 export default {
-  components: { Admin },
+  components: { Service, Admin },
   data() {
     return {
       form: {},
@@ -66,8 +69,16 @@ export default {
   },
   created() {
     const loadingInstance1 = Loading.service({ fullscreen: true })
-    if (this.$route.query.merchant) {
-      this.form = JSON.parse(decodeURIComponent(this.$route.query.merchant))
+    if (this.$route.query.merchantId) {
+      this.form.merchantId = this.$route.query.merchantId
+      detailMerchant({ merchantId: this.$route.query.merchantId }).then(response => {
+        this.form = response.data
+      })
+    }
+    if (this.$route.path === '/merchant/center') {
+      detailMyMerchant().then(response => {
+        this.form = response.data
+      })
     }
     loadingInstance1.close()
   },

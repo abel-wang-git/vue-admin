@@ -57,7 +57,7 @@
       </el-table-column>
       <el-table-column align="center" label="操作" width="100px">
         <template slot-scope="scope">
-          <router-link :to="{ name: '商户修改', query: { merchant: encodeURIComponent(JSON.stringify(scope.row)) }}">
+          <router-link :to="{ name: '商户修改', query: { merchantId: scope.row.merchantId }}">
             <el-button type="danger" size="mini">
               编辑
             </el-button>

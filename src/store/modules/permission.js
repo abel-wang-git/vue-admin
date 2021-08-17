@@ -37,6 +37,7 @@ export const loadView = (view) => {
 
 const state = {
   routes: [],
+  buttons: [],
   addRoutes: [],
   isInit: false
 }
@@ -46,6 +47,9 @@ const mutations = {
     state.addRoutes = routes
     state.routes = constantRoutes.concat(routes)
     state.isInit = true
+  },
+  SET_BUTTON: (state, buttons) => {
+    state.buttons = buttons
   }
 }
 
@@ -54,9 +58,10 @@ const actions = {
     return new Promise((resolve, reject) => {
       getMenu().then(
         response => {
-          const accessedRoutes = filterAsyncRoutes(response.data)
+          const accessedRoutes = filterAsyncRoutes(response.data.menu)
           accessedRoutes.push({ path: '*', redirect: '/404', hidden: true })
           commit('SET_ROUTES', accessedRoutes)
+          commit('SET_BUTTON', response.data.button)
           resolve(accessedRoutes)
         }).catch(error => {
         reject(error)

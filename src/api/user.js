@@ -155,3 +155,42 @@ export function departmentUses(data) {
   })
 }
 
+export function buttonList(data) {
+  return request({
+    url: 'button/list',
+    method: 'get',
+    params: data
+  })
+}
+
+export function roleButton(data) {
+  return request({
+    url: 'role/button',
+    method: 'get',
+    params: data
+  })
+}
+
+export function roleButtonSave(data) {
+  return request({
+    url: 'role/button',
+    method: 'put',
+    data: data
+  })
+}
+
+export function buttonSave(data) {
+  return request({
+    url: 'button/save',
+    method: 'put',
+    data: data
+  })
+}
+
+export function buttonDelete(data) {
+  return request({
+    url: 'button/delete',
+    method: 'delete',
+    params: data
+  })
+}

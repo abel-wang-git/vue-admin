@@ -11,6 +11,7 @@ import VueJsonEditor from 'vue-json-editor'
 import App from './App'
 import store from './store'
 import router from './router'
+import checkPermission from './utils/permission'
 
 import '@/icons' // icon
 import '@/permission'
@@ -50,3 +51,4 @@ new Vue({
   render: h => h(App)
 })
 
+Vue.prototype.checkPermission = checkPermission
