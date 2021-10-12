@@ -29,6 +29,7 @@ Vue.use(VueJsonEditor)
 Vue.config.productionTip = false
 Vue.prototype.imgUpload = process.env.VUE_APP_BASE_API.replace(/\/+$/, '') + '/img/upload'
 Vue.prototype.imgPrefix = process.env.VUE_APP_BASE_API.replace(/\/+$/, '') + '/'
+Vue.prototype.mediaUrl = process.env.VUE_APP_MEDIA_URL.replace(/\/+$/, '') + '/'
 
 function beforeImageUpload(file) {
   const isJPG = file.type === 'image/jpeg' || file.type === 'image/png'

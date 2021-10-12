@@ -67,10 +67,11 @@ export default {
       }
     }
   },
-  created() {
+  created() {},
+  mounted() {
     const loadingInstance1 = Loading.service({ fullscreen: true })
     if (this.$route.query.merchantId) {
-      this.form.merchantId = this.$route.query.merchantId
+      this.$set(this.form, 'merchantId', this.$route.query.merchantId)
       detailMerchant({ merchantId: this.$route.query.merchantId }).then(response => {
         this.form = response.data
       })

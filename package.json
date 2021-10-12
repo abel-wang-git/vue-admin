@@ -27,6 +27,9 @@
     "vue": "2.6.10",
     "vue-json-editor": "^1.4.3",
     "vue-router": "3.0.6",
+    "vue-video-player": "^5.0.2",
+    "vue-video-section": "^1.0.2",
+    "vue-videojs7": "^1.0.2",
     "vuex": "3.1.0"
   },
   "devDependencies": {

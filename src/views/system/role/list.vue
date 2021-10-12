@@ -79,7 +79,6 @@
 
 <script>
 import { roleList, powerList, rolePowerList, roleAddPower, menuList, roleMenu, roleAddMenu, roleAdd, deleteRole, roleButton, buttonList, roleButtonSave } from '@/api/user'
-import checkPermission from '@/utils/permission'
 
 export default {
   components: { },
@@ -108,7 +107,6 @@ export default {
     this.fetchData()
   },
   methods: {
-    checkPermission,
     fetchData() {
       this.listLoading = true
       roleList().then(response => {

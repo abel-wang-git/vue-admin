@@ -53,7 +53,8 @@ export default {
     }
   },
   watch: {
-    merchantId(o, n) {
+    merchantId: function(v) {
+      this.merchantId = v
       this.fetchData()
     }
   },

@@ -64,3 +64,11 @@ export function districtSave(data) {
   })
 }
 
+export function statesAll(data) {
+  return request({
+    url: 'states/all',
+    method: 'get',
+    data: data
+  })
+}
+

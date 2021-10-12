@@ -10,7 +10,7 @@
               :headers="headerObj"
               :show-file-list="false"
               :on-success="handleAvatarSuccess"
-              :before-upload="beforeAvatarUpload"
+              :before-upload="beforeImageUpload"
             >
               <img v-if="form.avatar" :src="imgPrefix + form.avatar" class="avatar">
               <i v-else class="el-icon-plus avatar-uploader-icon" />
